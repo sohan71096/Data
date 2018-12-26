@@ -1,0 +1,22 @@
+<html>
+<body>
+
+<h2>List of Employees</h2>
+<p id="demo"></p>
+
+<script>
+var emp, text, fLen, i;
+emp = ["Tove", "Hege", "Stale", "Kai Jim","Borge", "undefined"];
+fLen = emp.length;
+
+text = "<ol>";
+for (i = 0; i < fLen; i++) {
+    text += "<li>" + emp[i] + "</li>";
+}
+text += "</ol>";
+
+document.getElementById("demo").innerHTML = text;
+</script>
+
+</body>
+</html>

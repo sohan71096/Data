@@ -1,0 +1,21 @@
+<html>
+<head>
+   	<script>
+	function CI()
+	{
+	p=document.getElementById("p").value;
+	n=document.getElementById("n").value;
+	r=document.getElementById("r").value;
+	a=document.getElementById("a");
+	a.innerHTML=("Amount total is"+p*Math.pow(1+r/100,n));
+	}
+</script>
+</head>
+<body>
+Amount:<input id="p"><br/>
+Rate:<input id="r"><br/>
+Number of Years:<input id="n"><br/>
+<button onclick="CI()">Calculate</button>
+<p id="a"></p>
+</body>
+</html>

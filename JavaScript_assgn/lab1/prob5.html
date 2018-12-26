@@ -1,0 +1,32 @@
+<html> 
+<head>
+<title>Embedding Script tag in HTML Document</title> 
+<script src=common.js>
+
+ </script> 
+ 
+ </head> 
+ <body> 
+ <script> 
+ var headVar=10;
+document.write("Script embedded in Head Tag<br>");
+document.write("------------------------------------------");
+document.write("<br>Value stored in variable headvar is " +headVar);
+
+ </script> 
+ <hr> 
+ <script> 
+var bodyVar=55;
+document.write("Script embedded in Head Tag<br>");
+document.write("------------------------------------------");
+document.write("<br>Value stored in variable headvar is " +bodyVar);
+
+ </script> 
+ <hr>
+ <script>
+ addNos(headVar,bodyVar);
+ 
+ </script> 
+ <hr> 
+ </body> 
+ </html>
