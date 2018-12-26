@@ -1,0 +1,55 @@
+SQL> SELECT staff_code,design_code from staff_master where hiredate<='01-JAN-03' and staff_sal between 12000 and 25000;
+
+STAFF_CODE DESIGN_CODE                                                          
+---------- -----------                                                          
+    100002         102                                                          
+    100003         102                                                          
+    100004         102                                                          
+
+SQL> set linesize 400;
+SQL> seelct * from staff_master;
+SP2-0734: unknown command beginning "seelct * f..." - rest of line ignored.
+SQL> select * from staff_master;
+
+STAFF_CODE STAFF_NAME                                         DESIGN_CODE  DEPT_CODE STAFF_DOB HIREDATE    MGR_CODE  STAFF_SAL STAFF_ADDRESS                                                                                                                                                                                                                                                                    
+---------- -------------------------------------------------- ----------- ---------- --------- --------- ---------- ---------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------                                 
+    100001 Arvind                                                     102         30 15-JAN-80 15-JAN-03     100006      17000 Bangalore                                                                                                                                                                                                                                                                        
+    100002 Shyam                                                      102         20 18-FEB-80 17-FEB-02     100007      20000 Chennai                                                                                                                                                                                                                                                                          
+    100003 Mohan                                                      102         10 23-MAR-80 19-JAN-02     100006      24000 Mumbai                                                                                                                                                                                                                                                                           
+    100004 Anil                                                       102         20 22-APR-77 11-MAR-01     100006      20000 Hyderabad                                                                                                                                                                                                                                                                        
+    100005 John                                                       106         10 22-MAY-76 21-JAN-01     100007      32000 Bangalore                                                                                                                                                                                                                                                                        
+    100006 Allen                                                      103         30 22-JAN-80 23-APR-01     100005      42000 Chennai                                                                                                                                                                                                                                                                          
+    100007 Smith                                                      103         20 19-JUL-73 12-MAR-02     100005      62000 Mumbai                                                                                                                                                                                                                                                                           
+    100008 Raviraj                                                    102         40 17-JUN-80 11-JAN-03     100006      18000 Bangalore                                                                                                                                                                                                                                                                        
+    100009 Rahul                                                      102         20 16-JAN-78 11-DEC-03     100006      22000 Hyderabad                                                                                                                                                                                                                                                                        
+    100010 Ram                                                        103         30 17-JAN-79 17-JAN-02     100007      32000 Bangalore                                                                                                                                                                                                                                                                        
+
+10 rows selected.
+
+SQL> SELECT staff_code,staff_name,dept_code from staff_master
+  2  where ((sysdate-hiredate)/365)>=18 order by hiredate;
+
+no rows selected
+
+SQL> SELECT staff_name,dept_code,mgr_code from staff_master
+  2  where mgr_code IS NULL;
+
+no rows selected
+
+SQL> SELECT book_pub_year,book_name from book_master
+  2  where book_pub_year between 2001 and 2004 and book_name like '%&%';
+
+no rows selected
+
+SQL> SELECT staff_name from staff_master like '%\_%' escape '_';
+SELECT staff_name from staff_master like '%\_%' escape '\'
+                                    *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT staff_name from staff_master where staff_name like '%\_%' escape '\';
+
+no rows selected
+
+SQL> spool off

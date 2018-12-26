@@ -1,0 +1,306 @@
+SQL> SELECT staff_name,lpad(staff_sal,15,'$') as "Salary -Left padded"  from staff_master;
+
+STAFF_NAME                                         Salary -Left padded
+-------------------------------------------------- ------------------------------------------------------------
+Arvind                                             $$$$$$$$$$17000
+Shyam                                              $$$$$$$$$$20000
+Mohan                                              $$$$$$$$$$24000
+Anil                                               $$$$$$$$$$20000
+John                                               $$$$$$$$$$32000
+Allen                                              $$$$$$$$$$42000
+Smith                                              $$$$$$$$$$62000
+Raviraj                                            $$$$$$$$$$18000
+Rahul                                              $$$$$$$$$$22000
+Ram                                                $$$$$$$$$$32000
+
+10 rows selected.
+
+
+SQL> select * from student_master;
+
+STUDENT_CODE STUDENT_NAME                                        DEPT_CODE STUDENT_D STUDENT_ADDRESS                                                                                                                                                                                                                                                                                                            
+------------ -------------------------------------------------- ---------- --------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------                                                                           
+        1001 Amit                                                       10 11-JAN-80 chennai                                                                                                                                                                                                                                                                                                                    
+        1002 Ravi                                                       10 01-NOV-81 New Delhi                                                                                                                                                                                                                                                                                                                  
+        1003 Ajay                                                       20 13-JAN-82                                                                                                                                                                                                                                                                                                                            
+        1004 Raj                                                        30 14-JAN-79 Mumbai                                                                                                                                                                                                                                                                                                                     
+        1005 Arvind                                                     40 15-JAN-83 Bangalore                                                                                                                                                                                                                                                                                                                  
+        1006 Rahul                                                      50 16-JAN-81 Delhi                                                                                                                                                                                                                                                                                                                      
+        1007 Mehul                                                      20 17-JAN-82 Chennai                                                                                                                                                                                                                                                                                                                    
+        1008 Dev                                                        10 11-MAR-81 Bangalore                                                                                                                                                                                                                                                                                                                  
+        1009 Vijay                                                      30 19-JAN-80 Bangalore                                                                                                                                                                                                                                                                                                                  
+        1010 Rajat                                                      40 20-JAN-80 Bangalore                                                                                                                                                                                                                                                                                                                  
+        1011 Sunder                                                     50 21-JAN-80 Chennai                                                                                                                                                                                                                                                                                                                    
+
+STUDENT_CODE STUDENT_NAME                                        DEPT_CODE STUDENT_D STUDENT_ADDRESS                                                                                                                                                                                                                                                                                                            
+------------ -------------------------------------------------- ---------- --------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------                                                                           
+        1012 Rajesh                                                     30 22-JAN-80                                                                                                                                                                                                                                                                                                                            
+        1013 Anil                                                       20 23-JAN-80 Chennai                                                                                                                                                                                                                                                                                                                    
+        1014 Sunil                                                      10 15-FEB-85                                                                                                                                                                                                                                                                                                                            
+        1015 Kapil                                                      40 18-MAR-81 Mumbai                                                                                                                                                                                                                                                                                                                     
+        1016 Ashok                                                      40 26-NOV-80                                                                                                                                                                                                                                                                                                                            
+        1017 Ramesh                                                     30 27-DEC-80                                                                                                                                                                                                                                                                                                                            
+        1018 Amit Raj                                                   50 28-SEP-80 New Delhi                                                                                                                                                                                                                                                                                                                  
+        1019 Ravi Raj                                                   50 29-MAY-81 New Delhi                                                                                                                                                                                                                                                                                                                  
+        1020 Amrit                                                      10 11-NOV-80                                                                                                                                                                                                                                                                                                                            
+        1021 Sumit                                                      20 01-JAN-80 Chennai                                                                                                                                                                                                                                                                                                                    
+
+21 rows selected.
+
+SQL> SELECT student_name,to_char(student_dob,'Month,DD YYYY') as "Student Date of Birth" from student_master
+  2   where to_char(student_dob,'DY')='SAT' OR to_char(student_dob,'DY')='SUN';
+
+STUDENT_NAME                                       Student Date of Birth
+-------------------------------------------------- --------------------------------------------
+Ravi                                               November ,01 1981
+Raj                                                January  ,14 1979
+Arvind                                             January  ,15 1983
+Mehul                                              January  ,17 1982
+Vijay                                              January  ,19 1980
+Rajat                                              January  ,20 1980
+Ramesh                                             December ,27 1980
+Amit Raj                                           September,28 1980
+
+8 rows selected.
+
+SQL> SELECT staff_name,round(months_between(sysdate,hiredate)) as "MONTHS Worked" from staff_master;
+
+STAFF_NAME                                         MONTHS Worked                                                                                                                                                                                                                                                                                                                                                
+-------------------------------------------------- -------------                                                                                                                                                                                                                                                                                                                                                
+Arvind                                                       190                                                                                                                                                                                                                                                                                                                                                
+Shyam                                                        201                                                                                                                                                                                                                                                                                                                                                
+Mohan                                                        202                                                                                                                                                                                                                                                                                                                                                
+Anil                                                         212                                                                                                                                                                                                                                                                                                                                                
+John                                                         214                                                                                                                                                                                                                                                                                                                                                
+Allen                                                        211                                                                                                                                                                                                                                                                                                                                                
+Smith                                                        200                                                                                                                                                                                                                                                                                                                                                
+Raviraj                                                      190                                                                                                                                                                                                                                                                                                                                                
+Rahul                                                        179                                                                                                                                                                                                                                                                                                                                                
+Ram                                                          202                                                                                                                                                                                                                                                                                                                                                
+
+10 rows selected.
+
+SQL> SELECT * from staff_master
+  2  where to_number(to_char(hiredate,'DY'))<15 and to_char(hiredate,'MON')='DEC';
+where to_number(to_char(hiredate,'DY'))<15 and to_char(hiredate,'MON')='DEC'
+                *
+ERROR at line 2:
+ORA-01722: invalid number 
+
+
+SQL> SELECT * from staff_master
+  2  where to_number(to_char(hiredate,'DD'))<15 and to_char(hiredate,'MON')='DEC';
+
+STAFF_CODE STAFF_NAME                                         DESIGN_CODE  DEPT_CODE STAFF_DOB HIREDATE    MGR_CODE  STAFF_SAL STAFF_ADDRESS                                                                                                                                                                                                                                                                    
+---------- -------------------------------------------------- ----------- ---------- --------- --------- ---------- ---------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------                                 
+    100009 Rahul                                                      102         20 16-JAN-78 11-DEC-03     100006      22000 Hyderabad                                                                                                                                                                                                                                                                        
+
+SQL> SELECT * from staff_master;
+
+STAFF_CODE STAFF_NAME                                         DESIGN_CODE  DEPT_CODE STAFF_DOB HIREDATE    MGR_CODE  STAFF_SAL STAFF_ADDRESS                                                                                                                                                                                                                                                                    
+---------- -------------------------------------------------- ----------- ---------- --------- --------- ---------- ---------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------                                 
+    100001 Arvind                                                     102         30 15-JAN-80 15-JAN-03     100006      17000 Bangalore                                                                                                                                                                                                                                                                        
+    100002 Shyam                                                      102         20 18-FEB-80 17-FEB-02     100007      20000 Chennai                                                                                                                                                                                                                                                                          
+    100003 Mohan                                                      102         10 23-MAR-80 19-JAN-02     100006      24000 Mumbai                                                                                                                                                                                                                                                                           
+    100004 Anil                                                       102         20 22-APR-77 11-MAR-01     100006      20000 Hyderabad                                                                                                                                                                                                                                                                        
+    100005 John                                                       106         10 22-MAY-76 21-JAN-01     100007      32000 Bangalore                                                                                                                                                                                                                                                                        
+    100006 Allen                                                      103         30 22-JAN-80 23-APR-01     100005      42000 Chennai                                                                                                                                                                                                                                                                          
+    100007 Smith                                                      103         20 19-JUL-73 12-MAR-02     100005      62000 Mumbai                                                                                                                                                                                                                                                                           
+    100008 Raviraj                                                    102         40 17-JUN-80 11-JAN-03     100006      18000 Bangalore                                                                                                                                                                                                                                                                        
+    100009 Rahul                                                      102         20 16-JAN-78 11-DEC-03     100006      22000 Hyderabad                                                                                                                                                                                                                                                                        
+    100010 Ram                                                        103         30 17-JAN-79 17-JAN-02     100007      32000 Bangalore                                                                                                                                                                                                                                                                        
+
+10 rows selected.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT staff_name,staff_sal,
+  2  CASE
+  3  WHEN staff_sal>=50000 then 'A'
+  4  WHEN staff_sal>=25000 and staff_sal<50000 then 'B'
+  5  WHEN staff_sal>=10000 and staff_sal<25000 then 'C'
+  6  ELSE 'D'
+  7* END as GRADE from staff_master
+SQL> /
+
+STAFF_NAME                                          STAFF_SAL G
+-------------------------------------------------- ---------- -
+Arvind                                                  17000 C
+Shyam                                                   20000 C
+Mohan                                                   24000 C
+Anil                                                    20000 C
+John                                                    32000 B
+Allen                                                   42000 B
+Smith                                                   62000 A
+Raviraj                                                 18000 C
+Rahul                                                   22000 C
+Ram                                                     32000 B
+
+10 rows selected.
+
+
+SQL> SELECT staff_name as "STAFF NAME",hiredate,to_char(hiredate,'DAY') as "DAY on which HIRED" from staff_master
+  2  order by MOD(to_char(hiredate,'d')+5,7)+1;
+
+STAFF NAME                                         HIREDATE  DAY on which HIRED
+-------------------------------------------------- --------- ------------------------------------
+Allen                                              23-APR-01 MONDAY
+Smith                                              12-MAR-02 TUESDAY
+Arvind                                             15-JAN-03 WEDNESDAY
+Rahul                                              11-DEC-03 THURSDAY
+Ram                                                17-JAN-02 THURSDAY
+Raviraj                                            11-JAN-03 SATURDAY
+Mohan                                              19-JAN-02 SATURDAY
+Anil                                               11-MAR-01 SUNDAY
+Shyam                                              17-FEB-02 SUNDAY
+John                                               21-JAN-01 SUNDAY
+
+10 rows selected.
+
+
+SQL> SELECT * INSTR('Mississippi','i',1,3) from dual;
+SELECT * INSTR('Mississippi','i',1,3) from dual
+         *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT INSTR('Mississippi','i',1,3) from dual;
+
+INSTR('MISSISSIPPI','I',1,3)                                                                                                                                                                                                                                                                                                                                                                                    
+----------------------------                                                                                                                                                                                                                                                                                                                                                                                    
+                           8                                                                                                                                                                                                                                                                                                                                                                                    
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT staff_code as "STAFF CODE",staff_name as "STAFF NAME" ,to_char(next_day(last_day(hiredate)-7,'FRIDAY'),'DDSPTH "OF"
+  2* Month,YYYY') as "PAY DATE" from staff_master
+SQL> /
+
+STAFF CODE STAFF NAME                                         PAY DATE
+---------- -------------------------------------------------- ------------------------------------------------------------
+    100001 Arvind                                             THIRTY-FIRST OF
+                                                              January  ,2003
+
+    100002 Shyam                                              TWENTY-SECOND OF
+                                                              February ,2002
+
+    100003 Mohan                                              TWENTY-FIFTH OF
+                                                              January  ,2002
+
+    100004 Anil                                               THIRTIETH OF
+                                                              March    ,2001
+
+STAFF CODE STAFF NAME                                         PAY DATE
+---------- -------------------------------------------------- ------------------------------------------------------------
+
+    100005 John                                               TWENTY-SIXTH OF
+                                                              January  ,2001
+
+    100006 Allen                                              TWENTY-SEVENTH OF
+                                                              April    ,2001
+
+    100007 Smith                                              TWENTY-NINTH OF
+                                                              March    ,2002
+
+    100008 Raviraj                                            THIRTY-FIRST OF
+
+STAFF CODE STAFF NAME                                         PAY DATE
+---------- -------------------------------------------------- ------------------------------------------------------------
+                                                              January  ,2003
+
+    100009 Rahul                                              TWENTY-SIXTH OF
+                                                              December ,2003
+
+    100010 Ram                                                TWENTY-FIFTH OF
+                                                              January  ,2002
+
+
+10 rows selected.
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT student_name,student_code,
+  2  DECODE(dept_code,20,'Electricals',
+  3  	               ,30,'Electronics',
+  4* 	               'Others') dept_name from student_master
+SQL> /
+	               ,30,'Electronics',
+	               *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT student_name,student_code,
+  2  DECODE(dept_code,20,'Electricals',
+  3  	                30,'Electronics',
+  4* 	                'Others') dept_name from student_master
+SQL> /
+
+STUDENT_NAME                                       STUDENT_CODE DEPT_NAME                                                                                                                                                                                                                                                                                                                                       
+-------------------------------------------------- ------------ -----------                                                                                                                                                                                                                                                                                                                                     
+Amit                                                       1001 Others                                                                                                                                                                                                                                                                                                                                          
+Ravi                                                       1002 Others                                                                                                                                                                                                                                                                                                                                          
+Ajay                                                       1003 Electricals                                                                                                                                                                                                                                                                                                                                     
+Raj                                                        1004 Electronics                                                                                                                                                                                                                                                                                                                                     
+Arvind                                                     1005 Others                                                                                                                                                                                                                                                                                                                                          
+Rahul                                                      1006 Others                                                                                                                                                                                                                                                                                                                                          
+Mehul                                                      1007 Electricals                                                                                                                                                                                                                                                                                                                                     
+Dev                                                        1008 Others                                                                                                                                                                                                                                                                                                                                          
+Vijay                                                      1009 Electronics                                                                                                                                                                                                                                                                                                                                     
+Rajat                                                      1010 Others                                                                                                                                                                                                                                                                                                                                          
+Sunder                                                     1011 Others                                                                                                                                                                                                                                                                                                                                          
+
+STUDENT_NAME                                       STUDENT_CODE DEPT_NAME                                                                                                                                                                                                                                                                                                                                       
+-------------------------------------------------- ------------ -----------                                                                                                                                                                                                                                                                                                                                     
+Rajesh                                                     1012 Electronics                                                                                                                                                                                                                                                                                                                                     
+Anil                                                       1013 Electricals                                                                                                                                                                                                                                                                                                                                     
+Sunil                                                      1014 Others                                                                                                                                                                                                                                                                                                                                          
+Kapil                                                      1015 Others                                                                                                                                                                                                                                                                                                                                          
+Ashok                                                      1016 Others                                                                                                                                                                                                                                                                                                                                          
+Ramesh                                                     1017 Electronics                                                                                                                                                                                                                                                                                                                                     
+Amit Raj                                                   1018 Others                                                                                                                                                                                                                                                                                                                                          
+Ravi Raj                                                   1019 Others                                                                                                                                                                                                                                                                                                                                          
+Amrit                                                      1020 Others                                                                                                                                                                                                                                                                                                                                          
+Sumit                                                      1021 Electricals                                                                                                                                                                                                                                                                                                                                     
+
+21 rows selected.
+
+SQL> SELECT ROUND(MAX(staff_sal)) as Maximum,ROUND(MIN(staff_sal)) as Minimum,ROUND(SUM(staff_sal)) as Total,ROUND(AVG(staff_sal)) as Average from staff_master
+  2  group by dept_code;
+
+   MAXIMUM    MINIMUM      TOTAL    AVERAGE                                                                                                                                                                                                                                                                                                                                                                     
+---------- ---------- ---------- ----------                                                                                                                                                                                                                                                                                                                                                                     
+     42000      17000      91000      30333                                                                                                                                                                                                                                                                                                                                                                     
+     62000      20000     124000      31000                                                                                                                                                                                                                                                                                                                                                                     
+     18000      18000      18000      18000                                                                                                                                                                                                                                                                                                                                                                     
+     32000      24000      56000      28000                                                                                                                                                                                                                                                                                                                                                                     
+
+SQL> SELECT dept_code as DEPARTMENT_CODE, count(mgr_code) as "Total Number of Managers" from staff_master
+  2  group by dept_code;
+
+DEPARTMENT_CODE Total Number of Managers                                                                                                                                                                                                                                                                                                                                                                        
+--------------- ------------------------                                                                                                                                                                                                                                                                                                                                                                        
+             30                        3                                                                                                                                                                                                                                                                                                                                                                        
+             20                        4                                                                                                                                                                                                                                                                                                                                                                        
+             40                        1                                                                                                                                                                                                                                                                                                                                                                        
+             10                        2                                                                                                                                                                                                                                                                                                                                                                        
+
+SQL> SELECT deptno,sum(sal) from emp
+  2  where job NOT like '%manager%' having sum(sal)>2000
+  3  group by deptno;
+
+    DEPTNO   SUM(SAL)                                                                                                                                                                                                                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                                                                                                                                                                                                                           
+        30       9400                                                                                                                                                                                                                                                                                                                                                                                           
+        20      10875                                                                                                                                                                                                                                                                                                                                                                                           
+        10       8750                                                                                                                                                                                                                                                                                                                                                                                           
+
+SQL> spool off;

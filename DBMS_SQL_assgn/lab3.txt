@@ -1,0 +1,371 @@
+SQL> select s.staff_name as "Staff Name",d.dept_code as "Department Code",d.dept_name as "Department Name",s.staff_sal as "Salary" from staff_master s,department_master d
+  2  where s.dept_code=d.dept_code and staff_sal>20000;
+
+Staff Name                                         Department Code Department Name                                        Salary                                                                                                                                                                            
+-------------------------------------------------- --------------- -------------------------------------------------- ----------                                                                                                                                                                            
+Mohan                                                           10 Computer Science                                        24000                                                                                                                                                                            
+John                                                            10 Computer Science                                        32000                                                                                                                                                                            
+Allen                                                           30 Electronics                                             42000                                                                                                                                                                            
+Smith                                                           20 Electricals                                             62000                                                                                                                                                                            
+Rahul                                                           20 Electricals                                             22000                                                                                                                                                                            
+Ram                                                             30 Electronics                                             32000                                                                                                                                                                            
+
+6 rows selected.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.staff_code as "Staff#",s.staff_name as "Staff",d.dept_name as "Department Name",
+  2  s.mgr_code as "Mgr#' from staff_master s, department_master d 
+  3* where s.dept_code=d.dept_code
+SQL> /
+ERROR:
+ORA-01740: missing double quote in identifier 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.staff_code as "Staff#",s.staff_name as "Staff",d.dept_name as "Department Name",
+  2  s.mgr_code as "Mgr#" from staff_master s, department_master d 
+  3* where s.dept_code=d.dept_code
+SQL> /
+
+    Staff# Staff                                              Department Name                                          Mgr#                                                                                                                                                                                 
+---------- -------------------------------------------------- -------------------------------------------------- ----------                                                                                                                                                                                 
+    100001 Arvind                                             Electronics                                            100006                                                                                                                                                                                 
+    100002 Shyam                                              Electricals                                            100007                                                                                                                                                                                 
+    100003 Mohan                                              Computer Science                                       100006                                                                                                                                                                                 
+    100004 Anil                                               Electricals                                            100006                                                                                                                                                                                 
+    100005 John                                               Computer Science                                       100007                                                                                                                                                                                 
+    100006 Allen                                              Electronics                                            100005                                                                                                                                                                                 
+    100007 Smith                                              Electricals                                            100005                                                                                                                                                                                 
+    100008 Raviraj                                            Mechanics                                              100006                                                                                                                                                                                 
+    100009 Rahul                                              Electricals                                            100006                                                                                                                                                                                 
+    100010 Ram                                                Electronics                                            100007                                                                                                                                                                                 
+
+10 rows selected.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.student_code,s.student_name,b.book_code,m.book_name
+  2  from student_master s, book_transactions b, book_master m
+  3* where s.student_code=b.student_code and b.book_code=m.book_code and book_expected_return_date=sysdate
+SQL> /
+
+no rows selected
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.staff_code as "Staff Code",s.staff_name as "Staff Name",d.dept_name as "Department Name",dm.design_name as "Designation_Name",b.book_code as "Book Code",b.book_issue_date as "Book Issue Date",bm.book_name as "Book Name"
+  2  from staff_master s ,department_master d,desigantion_master dm,book_transactions b,book_master bm
+  3* where s.dept_code=d.dept_code and s.design_code=dm.design_code and s.staff_code=b.staff_code and b.book_code=bm.book_code and months_between(sysdate,book_issue_date)<1
+SQL> /
+from staff_master s ,department_master d,desigantion_master dm,book_transactions b,book_master bm
+                                         *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.staff_code as "Staff Code",s.staff_name as "Staff Name",d.dept_name as "Department Name",dm.design_name as "Designation_Name",b.book_code as "Book Code",b.book_issue_date as "Book Issue Date",bm.book_name as "Book Name"
+  2  from staff_master s ,department_master d,designation_master dm,book_transactions b,book_master bm
+  3* where s.dept_code=d.dept_code and s.design_code=dm.design_code and s.staff_code=b.staff_code and b.book_code=bm.book_code and months_between(sysdate,book_issue_date)<1
+SQL> /
+
+no rows selected
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.staff_code as "Staff Code",s.staff_name as "Staff Name",design_name as "Designation_Name",dept_name as "Department Name",b.book_code as "Book Code",book_name as "Book Name",book_pub_author as "Author",5*(sysdate-book_expected_return_date) fine
+  2  from staff_master s, department_master d,desigantion_master ds,book_transactions b,book_master bm
+  3  where s.dept_code=dsgn.dept_code and s.staff_code=b.staff_code
+  4* and b.book_code=bm.book_code and book_actual_return_date IS NULL
+SQL> /
+from staff_master s, department_master d,desigantion_master ds,book_transactions b,book_master bm
+                                         *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.staff_code as "Staff Code",s.staff_name as "Staff Name",design_name as "Designation_Name",dept_name as "Department Name",b.book_code as "Book Code",book_name as "Book Name",book_pub_author as "Author",5*(sysdate-book_expected_return_date) fine
+  2  from staff_master s, department_master d,designation_master ds,book_transactions b,book_master bm
+  3  where s.dept_code=dsgn.dept_code and s.staff_code=b.staff_code
+  4* and b.book_code=bm.book_code and book_actual_return_date IS NULL
+SQL> /
+where s.dept_code=dsgn.dept_code and s.staff_code=b.staff_code
+                  *
+ERROR at line 3:
+ORA-00904: "DSGN"."DEPT_CODE": invalid identifier 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.staff_code as "Staff Code",s.staff_name as "Staff Name",design_name as "Designation_Name",dept_name as "Department Name",b.book_code as "Book Code",book_name as "Book Name",book_pub_author as "Author",5*(sysdate-book_expected_return_date) fine
+  2  from staff_master s, department_master d,designation_master ds,book_transactions b,book_master bm
+  3  where s.dept_code=ds.dept_code and s.staff_code=b.staff_code
+  4* and b.book_code=bm.book_code and book_actual_return_date IS NULL
+SQL> /
+where s.dept_code=ds.dept_code and s.staff_code=b.staff_code
+                  *
+ERROR at line 3:
+ORA-00904: "DS"."DEPT_CODE": invalid identifier 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.staff_code as "Staff Code",s.staff_name as "Staff Name",design_name as "Designation_Name",dept_name as "Department Name",b.book_code as "Book Code",book_name as "Book Name",book_pub_author as "Author",5*(sysdate-book_expected_return_date) fine
+  2  from staff_master s, department_master d,designation_master ds,book_transactions b,book_master bm
+  3  where s.dept_code=d.dept_code and
+  4  s.design_code=ds.design_code and 
+  5  s.staff_code=b.staff_code and 
+  6  b.book_code=bm.book_code and 
+  7* book_actual_return_date IS NULL
+SQL> /
+
+no rows selected
+
+SQL> SELECT staff_code as "Staff Code",staff_name as "Staff Name",staff_sal as "Staff-Salary"
+  2  from staff_master
+  3  where staff_sal<(select avg(staff_sal) from staff_master);
+
+Staff Code Staff Name                                         Staff-Salary                                                                                                                                                                                                                                  
+---------- -------------------------------------------------- ------------                                                                                                                                                                                                                                  
+    100001 Arvind                                                    17000                                                                                                                                                                                                                                  
+    100002 Shyam                                                     20000                                                                                                                                                                                                                                  
+    100003 Mohan                                                     24000                                                                                                                                                                                                                                  
+    100004 Anil                                                      20000                                                                                                                                                                                                                                  
+    100008 Raviraj                                                   18000                                                                                                                                                                                                                                  
+    100009 Rahul                                                     22000                                                                                                                                                                                                                                  
+
+6 rows selected.
+
+SQL> SELECT book_pub_author as "Author",book_name as "Book Name"
+  2  from book_master
+  3  where book_pub_author in
+  4  (select book_pub_author from book_master
+  5  having count(book_pub_author)>1
+  6  group by book_pub_author);
+
+Author                                             Book Name                                                                                                                                                                                                                                                
+-------------------------------------------------- --------------------------------------------------                                                                                                                                                                                                       
+Yashavant Kanetkar                                 Let Us C                                                                                                                                                                                                                                                 
+Yashavant Kanetkar                                 Let Us C++                                                                                                                                                                                                                                               
+
+
+SQL> SELECT S.Staff_Code,D.Staff_Name,D.DEPT_NAME FROM STAFFMASTER S,BOOK_TRANSACTIONS D GROUP BY S.STAFF_NAME HAVING COUNT(D.STAFF_NAME)>1;
+SELECT S.Staff_Code,D.Staff_Name,D.DEPT_NAME FROM STAFFMASTER S,BOOK_TRANSACTIONS D GROUP BY S.STAFF_NAME HAVING COUNT(D.STAFF_NAME)>1
+                                                  *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT S.Staff_Code,D.Staff_Name,D.DEPT_NAME FROM STAFF_MASTER S,BOOK_TRANSACTIONS D GROUP BY S.STAFF_NAME HAVING COUNT(D.STAFF_NAME)>1;
+SELECT S.Staff_Code,D.Staff_Name,D.DEPT_NAME FROM STAFF_MASTER S,BOOK_TRANSACTIONS D GROUP BY S.STAFF_NAME HAVING COUNT(D.STAFF_NAME)>1
+                                                                                                                        *
+ERROR at line 1:
+ORA-00904: "D"."STAFF_NAME": invalid identifier 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.staff_code as "Staff Code",s.staff_name as "Staff Name",d.dept_name as "Department Name" 
+  2  from staff_master s,department_master d
+  3* where staff_code in(select staff_code from book_transactions group by staff_code having count(book_transactions group by staff_code having count(book_code)>1)
+SQL> /
+where staff_code in(select staff_code from book_transactions group by staff_code having count(book_transactions group by staff_code having count(book_code)>1)
+                                                                                                                *
+ERROR at line 3:
+ORA-00907: missing right parenthesis 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.staff_code as "Staff Code",s.staff_name as "Staff Name",d.dept_name as "Department Name" 
+  2  from staff_master s,department_master d
+  3  where staff_code in (select staff_code from book_transactions group by staff_code 
+  4* having count(book_transactions group by staff_code having count(book_code)>1))
+SQL> /
+having count(book_transactions group by staff_code having count(book_code)>1))
+                               *
+ERROR at line 4:
+ORA-00907: missing right parenthesis 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.staff_code as "Staff Code",s.staff_name as "Staff Name",d.dept_name as "Department Name" 
+  2  from staff_master s,department_master d
+  3  where staff_code in (select staff_code from book_transactions group by staff_code) 
+  4* having count(book_transactions group by staff_code having count(book_code)>1)
+SQL> /
+having count(book_transactions group by staff_code having count(book_code)>1)
+                               *
+ERROR at line 4:
+ORA-00907: missing right parenthesis 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.staff_code as "Staff Code",s.staff_name as "Staff Name",d.dept_name as "Department Name" 
+  2  from staff_master s,department_master d
+  3* where s.dept_code=d.dept_code and staff_code in(select staff_code from book_transactions group by staff_code having count(*)>1
+SQL> /
+where s.dept_code=d.dept_code and staff_code in(select staff_code from book_transactions group by staff_code having count(*)>1
+                                                                                                                             *
+ERROR at line 3:
+ORA-00907: missing right parenthesis 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.staff_code as "Staff Code",s.staff_name as "Staff Name",d.dept_name as "Department Name" 
+  2  from staff_master s,department_master d
+  3* where s.dept_code=d.dept_code and staff_code in(select staff_code from book_transactions group by staff_code having count(*)>1)
+SQL> /
+
+Staff Code Staff Name                                         Department Name                                                                                                                                                                                                                               
+---------- -------------------------------------------------- --------------------------------------------------                                                                                                                                                                                            
+    100006 Allen                                              Electronics                                                                                                                                                                                                                                   
+    100007 Smith                                              Electricals                                                                                                                                                                                                                                   
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.student_code as "Student Code",s.student_name as "Student Name",d.dept_name as "Department Name"
+  2  from student_master s, department_master d
+  3* where s.dept_code=d.dept_code and s.dept_code in (SELECT max(count(*)) from student_master group by dept_code)) 
+SQL> /
+where s.dept_code=d.dept_code and s.dept_code in (SELECT max(count(*)) from student_master group by dept_code)) 
+                                                                                                              *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.student_code as "Student Code",s.student_name as "Student Name",d.dept_name as "Department Name"
+  2  from student_master s, department_master d
+  3* where s.dept_code=d.dept_code and s.dept_code in (SELECT dept_code from student_master group by dept_code having count(*)=(SELECT Max(count(*)) from student_master group by dept_code)) 
+SQL> /
+
+Student Code Student Name                                       Department Name                                                                                                                                                                                                                             
+------------ -------------------------------------------------- --------------------------------------------------                                                                                                                                                                                          
+        1001 Amit                                               Computer Science                                                                                                                                                                                                                            
+        1002 Ravi                                               Computer Science                                                                                                                                                                                                                            
+        1008 Dev                                                Computer Science                                                                                                                                                                                                                            
+        1014 Sunil                                              Computer Science                                                                                                                                                                                                                            
+        1020 Amrit                                              Computer Science                                                                                                                                                                                                                            
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.staff_code as "Staff Code",s.staff_name as "Staff Name",d.dept_name as "Department Name",s.design_code as "Designation code"
+  2  from staff_master s,department_master d 
+  3  where s.dept_code=d.dept_code and staff_name in (select staff_name from staff_master
+  4* 				        where months_between(sysdate,hiredate)<=3)
+SQL> /
+
+no rows selected
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT st.staff_name as "Manager Name", count(*) as "Total Strength"
+  2  from staff_master s,staff_master st
+  3  where s.mgr_code=st.staff_code
+  4* group by st.staff_name 
+SQL> /
+
+Manager Name                                       Total Strength                                                                                                                                                                                                                                           
+-------------------------------------------------- --------------                                                                                                                                                                                                                                           
+John                                                            2                                                                                                                                                                                                                                           
+Allen                                                           5                                                                                                                                                                                                                                           
+Smith                                                           3                                                                                                                                                                                                                                           
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT b.*,next_day(last_day(book_expected_return_date)-7,'MONDAY')
+  2  from book_transactions
+  3  where book_actual_return_date IS NULL and
+  4* book_expected_return_date=next_day(last_day(book_expected_return_date)-7,'MONDAY')
+SQL> /
+SELECT b.*,next_day(last_day(book_expected_return_date)-7,'MONDAY')
+         *
+ERROR at line 1:
+ORA-00904: "B": invalid identifier 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT b.*,next_day(last_day(book_expected_return_date)-7,'MONDAY')
+  2  from book_transactions b
+  3  where book_actual_return_date IS NULL and
+  4* book_expected_return_date=next_day(last_day(book_expected_return_date)-7,'MONDAY')
+SQL> /
+
+no rows selected
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.dept_code as "Department Code", dept_name as "Department Name",count(*) as "Number of People"
+  2  from staff_masters,department_master d
+  3  where s.dept_code=d.dept_code
+  4* group by s.dept_code.dept_name 
+SQL> /
+from staff_masters,department_master d
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist   
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.dept_code as "Department Code",d.dept_name as "Department Name",count(*) as "Number of People"
+  2  from staff_master s,department_master d
+  3  where s.dept_code=d.dept_code
+  4* group by s.dept_code=d.dept_name 
+SQL> /
+group by s.dept_code=d.dept_name 
+                    *
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  SELECT s.dept_code as "Department Code",d.dept_name as "Department Name",count(*) as "Number of People"
+  2  from staff_master s,department_master d
+  3  where s.dept_code=d.dept_code
+  4* group by s.dept_code,d.dept_name 
+SQL> /
+
+Department Code Department Name                                    Number of People                                                                                                                                                                                                                         
+--------------- -------------------------------------------------- ----------------                                                                                                                                                                                                                         
+             10 Computer Science                                                  2                                                                                                                                                                                                                         
+             20 Electricals                                                       4                                                                                                                                                                                                                         
+             30 Electronics                                                       3                                                                                                                                                                                                                         
+             40 Mechanics                                                         1                                                                                                                                                                                                                         
+
+SQL> spool off

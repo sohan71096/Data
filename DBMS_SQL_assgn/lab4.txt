@@ -1,0 +1,676 @@
+SQL> CREATE table customer(customerid number(5),cust_name varchar2(20),address1 varchar2(30),address2 varchar2(30));
+
+Table created.
+
+SQL> ALTER table customer MODIFY cust_name varchar2(30);
+
+Table altered.
+
+SQL> ALTER TABLE customer rename column cust_name to CustomerName;
+
+Table altered.
+
+SQL> ALTER table customer add(gender varchar2(1),age number(3),phoneno number(10));
+
+Table altered.
+
+SQL> ALTER table customer RENAME to cust_table;
+ALTER table customer RENAME to cust_table
+                               *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> desc customer;
+ Name                                                                                                                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- ------------------------------------------------------------------------------------------------------------------------------------------------------------
+ CUSTOMERID                                                                                                                                                                                                                                         NUMBER(5)
+ CUSTOMERNAME                                                                                                                                                                                                                                       VARCHAR2(30)
+ ADDRESS1                                                                                                                                                                                                                                           VARCHAR2(30)
+ ADDRESS2                                                                                                                                                                                                                                           VARCHAR2(30)
+ GENDER                                                                                                                                                                                                                                             VARCHAR2(1)
+ AGE                                                                                                                                                                                                                                                NUMBER(3)
+ PHONENO                                                                                                                                                                                                                                            NUMBER(10)
+
+SQL> alter table customer rename to cust_table;
+alter table customer rename to cust_table
+                               *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> desc cust_table;
+ Name                                                                                                                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- ------------------------------------------------------------------------------------------------------------------------------------------------------------
+ CUSTOMERID                                                                                                                                                                                                                                         NUMBER(5)
+ CUSTOMERNAME                                                                                                                                                                                                                                       VARCHAR2(30)
+ ADDRESS1                                                                                                                                                                                                                                           VARCHAR2(30)
+ ADDRESS2                                                                                                                                                                                                                                           VARCHAR2(30)
+ GENDER                                                                                                                                                                                                                                             VARCHAR2(1)
+ AGE                                                                                                                                                                                                                                                NUMBER(3)
+ PHONENO                                                                                                                                                                                                                                            NUMBER(10)
+
+SQL> drop cust_table;
+drop cust_table
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option 
+
+
+SQL> drop table cust_table;
+
+Table dropped.
+
+SQL> alter table customer rename to cust_table;
+
+Table altered.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1* alter table customer rename to cust_table
+SQL> desc cust_table;
+ Name                                                                                                                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- ------------------------------------------------------------------------------------------------------------------------------------------------------------
+ CUSTOMERID                                                                                                                                                                                                                                         NUMBER(5)
+ CUSTOMERNAME                                                                                                                                                                                                                                       VARCHAR2(30)
+ ADDRESS1                                                                                                                                                                                                                                           VARCHAR2(30)
+ ADDRESS2                                                                                                                                                                                                                                           VARCHAR2(30)
+ GENDER                                                                                                                                                                                                                                             VARCHAR2(1)
+ AGE                                                                                                                                                                                                                                                NUMBER(3)
+ PHONENO                                                                                                                                                                                                                                            NUMBER(10)
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  insert into cust_table(customerid,customername,address1,address2,gender,age,phoneno)
+  2  values
+  3  (1000,'Allen','#115 Chicago','#115 Chicago','M',25,7878776),
+  4  (1001,'George','#116 France','#116 France','M',25,434524),
+  5* (1002,'Becker','#114 New York','#114 New York','M',45,431525)
+SQL> /
+(1000,'Allen','#115 Chicago','#115 Chicago','M',25,7878776),
+                                                           *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  insert into cust_table(customerid,customername,address1,address2,gender,age,phoneno)
+  2  values
+  3  (1000,'Allen','#115 Chicago','#115 Chicago','M',25,7878776);
+  4  (1001,'George','#116 France','#116 France','M',25,434524),
+  5* (1002,'Becker','#114 New York','#114 New York','M',45,431525)
+  6  
+SQL> 
+SQL> /
+(1000,'Allen','#115 Chicago','#115 Chicago','M',25,7878776);
+                                                           *
+ERROR at line 3:
+ORA-00911: invalid character 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  insert all
+  2  into cust_table values (1000,'Allen','#115 Chicago','#115 Chicago','M',25,7878776)
+  3  into cust_table values (1001,'George','#116 France','#116 France','M',25,434524),
+  4* into cust_table values (1002,'Becker','#114 New York','#114 New York','M',45,431525)
+SQL> /
+into cust_table values (1001,'George','#116 France','#116 France','M',25,434524),
+                                                                                *
+ERROR at line 3:
+ORA-00928: missing SELECT keyword 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  insert all
+  2  into cust_table values (1000,'Allen','#115 Chicago','#115 Chicago','M',25,7878776)
+  3  into cust_table values (1001,'George','#116 France','#116 France','M',25,434524)
+  4* into cust_table values (1002,'Becker','#114 New York','#114 New York','M',45,431525)
+SQL> /
+into cust_table values (1002,'Becker','#114 New York','#114 New York','M',45,431525)
+                                                                                   *
+ERROR at line 4:
+ORA-00928: missing SELECT keyword 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  insert all
+  2  into cust_table values (1000,'Allen','#115 Chicago','#115 Chicago','M',25,7878776)
+  3  into cust_table values (1001,'George','#116 France','#116 France','M',25,434524)
+  4  into cust_table values (1002,'Becker','#114 New York','#114 New York','M',45,431525)
+  5* select from 1 dual
+SQL> /
+select from 1 dual
+       *
+ERROR at line 5:
+ORA-00936: missing expression 
+
+
+SQL> es
+SP2-0042: unknown command "es" - rest of line ignored.
+SQL> ed
+Wrote file afiedt.buf
+
+  1  insert all
+  2  into cust_table values (1000,'Allen','#115 Chicago','#115 Chicago','M',25,7878776)
+  3  into cust_table values (1001,'George','#116 France','#116 France','M',25,434524)
+  4  into cust_table values (1002,'Becker','#114 New York','#114 New York','M',45,431525)
+  5* select 1 from dual
+SQL> /
+
+3 rows created.
+
+SQL> select * from cust_table;
+
+CUSTOMERID CUSTOMERNAME                   ADDRESS1                       ADDRESS2                       G        AGE    PHONENO                                                                                                                                                                                                                                                                                 
+---------- ------------------------------ ------------------------------ ------------------------------ - ---------- ----------                                                                                                                                                                                                                                                                                 
+      1000 Allen                          #115 Chicago                   #115 Chicago                   M         25    7878776                                                                                                                                                                                                                                                                                 
+      1001 George                         #116 France                    #116 France                    M         25     434524                                                                                                                                                                                                                                                                                 
+      1002 Becker                         #114 New York                  #114 New York                  M         45     431525                                                                                                                                                                                                                                                                                 
+
+SQL> ALTER table cust_name add constraint CustId_Prim primary key (customerid);
+ALTER table cust_name add constraint CustId_Prim primary key (customerid)
+*
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> ALTER table cust_table add constraint CustId_Prim primary key (customerid);
+
+Table altered.
+
+SQL> insert into cust_table values(1002,'John','#114 Chicago','#114 Chicago','M',45,439525);
+insert into cust_table values(1002,'John','#114 Chicago','#114 Chicago','M',45,439525)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.CUSTID_PRIM) violated 
+
+
+SQL> ALTER table cust_table DISABLE constraint custid_prim;
+
+Table altered.
+
+SQL> insert into cust_table values(1002,'Becker','#114 New York','#114 New York','M',45,431525);
+
+1 row created.
+
+SQL> insert into cust_table values(1003,'Nana','#115 India','#115 India','M',45,431525);
+
+1 row created.
+
+SQL> ALTER table cust_table ENABLE constraint custid_prim;
+ALTER table cust_table ENABLE constraint custid_prim
+*
+ERROR at line 1:
+ORA-02437: cannot validate (SYSTEM.CUSTID_PRIM) - primary key violated 
+
+
+SQL> ALTER table cust_table DROP constraint custid_prim;
+
+Table altered.
+
+SQL> insert into cust_table values(1002,'Becker','#114 New York','#114 New York','M',45,431525);
+
+1 row created.
+
+SQL> insert into cust_table values(1003,'Nana','#115 India','#115 India','M',45,431525);
+
+1 row created.
+
+SQL> ALTER table cust_table ADD email varchar2(50);
+
+Table altered.
+
+SQL> ALTER table cust_table DROP column email;
+
+Table altered.
+
+SQL> create table suppliers(suppid number(5),sname varchar2(30),addr1 varchar2(30),addr2 varchar2(30),contactno number(10));
+
+Table created.
+
+SQL> drop table suppliers;
+
+Table dropped.
+
+SQL> rd
+SP2-0042: unknown command "rd" - rest of line ignored.
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table CustomerMaster(customerid_number(5) primary key,customername varchar2(30) not null
+  2* ,address1 varchar2(30) not null,address2 varchar2(30) not null,gender varchar2(1),age number(3),phoneno number(10))
+SQL> /
+create table CustomerMaster(customerid_number(5) primary key,customername varchar2(30) not null
+                                             *
+ERROR at line 1:
+ORA-00902: invalid datatype 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table CustomerMaster(customerid number(5) primary key,customername varchar2(30) not null
+  2* ,address1 varchar2(30) not null,address2 varchar2(30) not null,gender varchar2(1),age number(3),phoneno number(10))
+SQL> /
+create table CustomerMaster(customerid number(5) primary key,customername varchar2(30) not null
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> drop table Customermaster;
+
+Table dropped.
+
+SQL> /
+drop table Customermaster
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> create table CustomerMaster(customerid number(5) primary key,customername varchar2(30) not null
+  2  ,address1 varchar2(30) not null,address2 varchar2(30) not null,gender varchar2(1),age number(3),phoneno number(10))
+  3  ;
+
+Table created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table AccountsMaster(customerid number(5), Accountnumber(10),accounttype char(3),
+  2* ledgerbalance number(10) not null,constraint Acc-PK primary key (Accountnumber))
+SQL> /
+create table AccountsMaster(customerid number(5), Accountnumber(10),accounttype char(3),
+                                                               *
+ERROR at line 1:
+ORA-00902: invalid datatype 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table AccountsMaster(customerid number(5), Accountnumber number(10),accounttype char(3),
+  2* ledgerbalance number(10) not null,constraint Acc-PK primary key (Accountnumber))
+SQL> /
+ledgerbalance number(10) not null,constraint Acc-PK primary key (Accountnumber))
+                                                *
+ERROR at line 2:
+ORA-00904: : invalid identifier 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table AccountsMaster(customerid number(5), Accountnumber number(10),accounttype char(3),
+  2* ledgerbalance number(10) not null,constraint Acc_PK primary key (Accountnumber))
+SQL> /
+
+Table created.
+
+SQL> desc accountsmaster;
+ Name                                                                                                                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- ------------------------------------------------------------------------------------------------------------------------------------------------------------
+ CUSTOMERID                                                                                                                                                                                                                                         NUMBER(5)
+ ACCOUNTNUMBER                                                                                                                                                                                                                             NOT NULL NUMBER(10)
+ ACCOUNTTYPE                                                                                                                                                                                                                                        CHAR(3)
+ LEDGERBALANCE                                                                                                                                                                                                                             NOT NULL NUMBER(10)
+
+SQL> ALTER table Accountmaster ADD constraint Acc_fk foreign key(customerid) refernces customername(customerid);
+ALTER table Accountmaster ADD constraint Acc_fk foreign key(customerid) refernces customername(customerid)
+                                                                        *
+ERROR at line 1:
+ORA-00905: missing keyword 
+
+
+SQL> ALTER table Accountmaster ADD constraint Acc_fk foreign key(customerid) references customername(customerid);
+ALTER table Accountmaster ADD constraint Acc_fk foreign key(customerid) references customername(customerid)
+*
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> ALTER table Accountsmaster ADD constraint Acc_fk foreign key(customerid) references customername(customerid);
+ALTER table Accountsmaster ADD constraint Acc_fk foreign key(customerid) references customername(customerid)
+                                                                                    *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> ALTER table Accountsmaster ADD constraint Acc_fk foreign key(customerid) references customermaster(customerid);
+
+Table altered.
+
+SQL> select * from customermaster;
+
+no rows selected
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  insert all
+  2   into cust_table values (1000,'Allen','#115 Chicago','#115 Chicago','M',25,7878776)
+  3   into cust_table values (1001,'George','#116 France','#116 France','M',25,434524)
+  4   into cust_table values (1002,'Becker','#114 New York','#114 New York','M',45,431525)
+  5*  select 1 from dual 
+  6  /
+
+3 rows created.
+
+SQL> ALTER table Accountsmaster add constraint check_ac check(accounttype='NRI' OR accounttype='IND');
+
+Table altered.
+
+SQL> ALTER table Accountmaster add constraint balance_check (ledgerbalance>5000);
+ALTER table Accountmaster add constraint balance_check (ledgerbalance>5000)
+                                                       *
+ERROR at line 1:
+ORA-00904: : invalid identifier 
+
+SQL> ALTER table Accountsmaster add constraint balance_check check(ledgerbalance>5000);
+
+Table altered.
+
+SQL> select * from cust_table;
+
+CUSTOMERID CUSTOMERNAME                   ADDRESS1                       ADDRESS2                       G        AGE    PHONENO                                                                                                                                                                                                                                                                                 
+---------- ------------------------------ ------------------------------ ------------------------------ - ---------- ----------                                                                                                                                                                                                                                                                                 
+      1000 Allen                          #115 Chicago                   #115 Chicago                   M         25    7878776                                                                                                                                                                                                                                                                                 
+      1001 George                         #116 France                    #116 France                    M         25     434524                                                                                                                                                                                                                                                                                 
+      1002 Becker                         #114 New York                  #114 New York                  M         45     431525                                                                                                                                                                                                                                                                                 
+      1002 Becker                         #114 New York                  #114 New York                  M         45     431525                                                                                                                                                                                                                                                                                 
+      1003 Nana                           #115 India                     #115 India                     M         45     431525                                                                                                                                                                                                                                                                                 
+      1002 Becker                         #114 New York                  #114 New York                  M         45     431525                                                                                                                                                                                                                                                                                 
+      1003 Nana                           #115 India                     #115 India                     M         45     431525                                                                                                                                                                                                                                                                                 
+      1000 Allen                          #115 Chicago                   #115 Chicago                   M         25    7878776                                                                                                                                                                                                                                                                                 
+      1001 George                         #116 France                    #116 France                    M         25     434524                                                                                                                                                                                                                                                                                 
+      1002 Becker                         #114 New York                  #114 New York                  M         45     431525                                                                                                                                                                                                                                                                                 
+
+10 rows selected.
+
+ SQL> CREATE table AccountDetails as select * from Accountsmaster;
+
+Table created.
+
+SQL> CREATE VIEW Acc_view as select (CustomerCode,AccountHoldername,AccountNumber,AccountType,AccountLedgerBalance)
+  2  from Accountsmaster;
+CREATE VIEW Acc_view as select (CustomerCode,AccountHoldername,AccountNumber,AccountType,AccountLedgerBalance)
+                                            *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> CREATE VIEW Acc_view as select CustomerCode,AccountHoldername,AccountNumber,AccountType,AccountLedgerBalance
+  2  from Accountsmaster;
+CREATE VIEW Acc_view as select CustomerCode,AccountHoldername,AccountNumber,AccountType,AccountLedgerBalance
+                                                                                        *
+ERROR at line 1:
+ORA-00904: "ACCOUNTLEDGERBALANCE": invalid identifier 
+
+
+SQL> CREATE VIEW Acc_view as select CustomerCode,AccountHoldername,AccountNumber,AccountType,LedgerBalance
+  2  from Accountsmaster;
+CREATE VIEW Acc_view as select CustomerCode,AccountHoldername,AccountNumber,AccountType,LedgerBalance
+                                            *
+ERROR at line 1:
+ORA-00904: "ACCOUNTHOLDERNAME": invalid identifier 
+
+
+SQL> CREATE VIEW Acc_view as select Customerid,customername,AccountNumber,AccountType,LedgerBalance
+  2  from Accountsmaster;
+CREATE VIEW Acc_view as select Customerid,customername,AccountNumber,AccountType,LedgerBalance
+                                          *
+ERROR at line 1:
+ORA-00904: "CUSTOMERNAME": invalid identifier 
+
+
+SQL> desc accountsmaster;
+ Name                                                                                                                                                                          Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------------------------------
+ CUSTOMERID                                                                                                                                                                             NUMBER(5)
+ ACCOUNTNUMBER                                                                                                                                                                 NOT NULL NUMBER(10)
+ ACCOUNTTYPE                                                                                                                                                                            CHAR(3)
+ LEDGERBALANCE                                                                                                                                                                 NOT NULL NUMBER(10)
+
+SQL> CREATE VIEW Acc_view as select Customerid,AccountNumber,AccountType,LedgerBalance
+  2  from Accountsmaster;
+
+View created.
+
+SQL> desc acc_view;
+ Name                                                                                                                                                                          Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------------------------------
+ CUSTOMERID                                                                                                                                                                             NUMBER(5)
+ ACCOUNTNUMBER                                                                                                                                                                 NOT NULL NUMBER(10)
+ ACCOUNTTYPE                                                                                                                                                                            CHAR(3)
+ LEDGERBALANCE                                                                                                                                                                 NOT NULL NUMBER(10)
+
+SQL> CREATE VIEW Acc1_view as select CustomerCode,AccountHolderNumber,Type,Balance
+  2  from Accountsmaster;
+CREATE VIEW Acc1_view as select CustomerCode,AccountHolderNumber,Type,Balance
+                                                                      *
+ERROR at line 1:
+ORA-00904: "BALANCE": invalid identifier 
+
+
+SQL> CREATE VIEW Acc1_view as select CustomerCode,AccountHolderNumber,Type,LedgerBalance
+  2  from Accountsmaster;
+CREATE VIEW Acc1_view as select CustomerCode,AccountHolderNumber,Type,LedgerBalance
+                                                                 *
+ERROR at line 1:
+ORA-00904: "TYPE": invalid identifier 
+
+
+SQL> CREATE VIEW vAccs_Dtls as select Accounttype,Ledgerbalance from accountsmaster
+  2  where accounttype='IND' and ledgerbalance>=10000;
+
+View created.
+
+SQL> desc employee;
+ Name                                                                                                                                                                          Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------------------------------
+ EMPNO                                                                                                                                                                         NOT NULL NUMBER(4)
+ ENAME                                                                                                                                                                                  VARCHAR2(10)
+ SAL                                                                                                                                                                                    NUMBER(7,2)
+ DEPTNO                                                                                                                                                                                 NUMBER(2)
+
+SQL> select * from employee;
+
+     EMPNO ENAME             SAL     DEPTNO                                                                                                                                                                                                                                                                 
+---------- ---------- ---------- ----------                                                                                                                                                                                                                                                                 
+      7369 SMITH             800         20                                                                                                                                                                                                                                                                 
+      7499 ALLEN            1600         30                                                                                                                                                                                                                                                                 
+      7521 WARD             1250         30                                                                                                                                                                                                                                                                 
+      7566 JONES            2975         20                                                                                                                                                                                                                                                                 
+      7654 MARTIN           1250         30                                                                                                                                                                                                                                                                 
+      7698 BLAKE            2850         30                                                                                                                                                                                                                                                                 
+      7782 CLARK            2450         10                                                                                                                                                                                                                                                                 
+      7788 SCOTT            3000         20                                                                                                                                                                                                                                                                 
+      7839 KING             5000         10                                                                                                                                                                                                                                                                 
+      7844 TURNER           1500         30                                                                                                                                                                                                                                                                 
+      7876 ADAMS            1100         20                                                                                                                                                                                                                                                                 
+
+     EMPNO ENAME             SAL     DEPTNO                                                                                                                                                                                                                                                                 
+---------- ---------- ---------- ----------                                                                                                                                                                                                                                                                 
+      7900 JAMES             950         30                                                                                                                                                                                                                                                                 
+      7902 FORD             3000         20                                                                                                                                                                                                                                                                 
+      7934 MILLER           1300         10                                                                                                                                                                                                                                                                 
+
+14 rows selected.
+
+SQL> CREATE VIEW accsvw10 as select * from employee as READ only;
+CREATE VIEW accsvw10 as select * from employee as READ only
+                                               *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> CREATE VIEW accsvw10 as select * from employee with READ only;
+
+View created.
+
+SQL> desc department_master;
+ Name                                                                                                                                                                          Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------------------------------
+ DEPT_CODE                                                                                                                                                                     NOT NULL NUMBER(2)
+ DEPT_NAME                                                                                                                                                                              VARCHAR2(50)
+
+SQL> CREATE sequence Seq_Dept minvalue 40 start with 40 increment by 10 max value 200;
+CREATE sequence Seq_Dept minvalue 40 start with 40 increment by 10 max value 200
+                                                                   *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> CREATE sequence Seq_Dept
+  2  MINVALUE 40
+  3  START WITH 40
+  4  MAXVALUE 200
+  5  INCREMENT BY 1
+  6  CACHE 40;
+
+Sequence created.
+
+SQL> select * from department_master;
+
+ DEPT_CODE DEPT_NAME                                                                                                                                                                                                                                                                                        
+---------- --------------------------------------------------                                                                                                                                                                                                                                               
+        10 Computer Science                                                                                                                                                                                                                                                                                 
+        20 Electricals                                                                                                                                                                                                                                                                                      
+        30 Electronics                                                                                                                                                                                                                                                                                      
+        40 Mechanics                                                                                                                                                                                                                                                                                        
+        50 Robotics                                                                                                                                                                                                                                                                                         
+
+SQL> insert into department_master values(seq_dept.nextval,'Mechatronics');
+insert into department_master values(seq_dept.nextval,'Mechatronics')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.SYS_C007082) violated 
+
+
+SQL> create dept_master(deptno number(50),location varchar2(15));
+create dept_master(deptno number(50),location varchar2(15))
+       *
+ERROR at line 1:
+ORA-00901: invalid CREATE command 
+
+
+SQL> create table  dept_master(deptno number(50),location varchar2(15));
+create table  dept_master(deptno number(50),location varchar2(15))
+                                        *
+ERROR at line 1:
+ORA-01727: numeric precision specifier is out of range (1 to 38) 
+
+
+SQL> create table dept_master(deptno number(25),location varchar2(15));
+
+Table created.
+
+SQL> insert into dept_master values(seq_dept.nextval,'Delhi');
+
+1 row created.
+
+SQL> insert into dept_master values(seq_dept.nextval,'Pune');
+
+1 row created.
+
+SQL> insert into dept_master values(seq_dept.nextval,'Mumbai');
+
+1 row created.
+
+SQL> select * from dept_master;
+
+    DEPTNO LOCATION                                                                                                                                                                                                                                                                                         
+---------- ---------------                                                                                                                                                                                                                                                                                  
+        41 Delhi                                                                                                                                                                                                                                                                                            
+        42 Pune                                                                                                                                                                                                                                                                                             
+        43 Mumbai                                                                                                                                                                                                                                                                                           
+
+SQL> drop view seq_dept;
+drop view seq_dept
+*
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> drop sequence seq_dept;
+
+Sequence dropped.
+
+SQL> create index No_name on emp(empno);
+
+Index created.
+
+SQL> select * from emp;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                                                                                                                       
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                                                                                                                       
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20                                                                                                                                                                                                                       
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30                                                                                                                                                                                                                       
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30                                                                                                                                                                                                                       
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20                                                                                                                                                                                                                       
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30                                                                                                                                                                                                                       
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30                                                                                                                                                                                                                       
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10                                                                                                                                                                                                                       
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20                                                                                                                                                                                                                       
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10                                                                                                                                                                                                                       
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30                                                                                                                                                                                                                       
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20                                                                                                                                                                                                                       
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                                                                                                                       
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                                                                                                                       
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30                                                                                                                                                                                                                       
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20                                                                                                                                                                                                                       
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10                                                                                                                                                                                                                       
+
+14 rows selected.
+
+SQL> CREATE SYNONYM synEmp for emp;
+
+Synonym created.
+
+SQL> SELECT * from synEmp;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                                                                                                                       
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                                                                                                                       
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20                                                                                                                                                                                                                       
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30                                                                                                                                                                                                                       
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30                                                                                                                                                                                                                       
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20                                                                                                                                                                                                                       
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30                                                                                                                                                                                                                       
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30                                                                                                                                                                                                                       
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10                                                                                                                                                                                                                       
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20                                                                                                                                                                                                                       
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10                                                                                                                                                                                                                       
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30                                                                                                                                                                                                                       
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20                                                                                                                                                                                                                       
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                                                                                                                       
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                                                                                                                       
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30                                                                                                                                                                                                                       
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20                                                                                                                                                                                                                       
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10                                                                                                                                                                                                                       
+
+14 rows selected.
+
+SQL> CREATE INDEX IDX_EMP_HIREDATE on emp(HIREDATE);
+
+Index created.
+
+SQL> CREATE sequence SEQ_EMP minvalue 1001 start with 1001
+  2  increment by 1 cache 1001;
+
+Sequence created.
+
+SQL> spool off
+
