@@ -1,0 +1,97 @@
+<html>
+<head><title>form</title>
+</head>
+<body>
+<center><h3><b>Candidate Information<b><h3></center>
+<table align="center" style="background-color:skyblue" border="1" >
+<tr>
+<td>Name:<span class="required-mark" >*</span></td>
+<td><input type="NAME:" name="" size="15" value="" tab index="3" Required>
+
+</tr>
+<tr>
+<td>Password:<span class="required-mark">*</span></td></td>
+<td><input type="Employee Code" name="" size="15" value="" tab index="3">
+</tr>
+<tr>
+<td>Phone number:<span class="required-mark">*</span></td></td>
+<td><input type="Employee Code" name="" size="10" value="" tab index="3">
+</tr>
+<tr>
+<td>Gender:<span class="required-mark">*</span></td></td>
+<td>
+<input type="radio" name="s-grp" value="grp1"> Male 
+<input type="radio" name="s-grp" value="grp2"> Female <br>
+</td>
+</tr>
+<tr>
+<td>Date of Birth:<span class="required-mark">*</span> </td>
+<td><input type="date" name="date"></td>
+
+</tr>
+ <tr>
+<td> Email: <span class="required-mark">*</span></td>
+<td>
+<label for="email"></label>
+
+<input type="email" id="email"
+       pattern=".+@globex.com" size="30" required>
+	   </td>
+	   </tr>
+
+
+<td>Highest Qualification:<span class="required-mark">*</span> </td>
+<td> <div class="dropdown">
+<div class="control-group">
+  <label for="Highest Qualification:" class="control-label"></label>
+  <div class="controls">
+    <select name="Highest Qualification:" id="Highest Qualification:">
+      <option value="">Select Highest Qualification</option>
+      <option value="">---</option>
+      <option value="01">B.Tech</option>
+      <option value="02">M.Tech</option>
+      <option value="03">MBA</option>
+      <option value="04">MCA</option>
+      <option value="05">MSc</option>
+	  <option value="05">MA</option>
+	  <option value="05">BSc</option>
+	  </select>
+  </div>
+</div>
+</tr>
+
+<tr>
+<td>Coures Interested in:<span class="required-mark">*</span> </td>
+<td>
+<input type="checkbox" name="s-grp" value="grp1"> Java 
+<input type="checkbox" name="s-grp" value="grp2"> HTML 5 
+<input type="checkbox" name="s-grp" value="grp3"> CSS 3 
+<input type="checkbox" name="s-grp" value="oth"> Angular JS 
+<input type="checkbox" name="s-grp" value="grp1"> JQuery <br> <br>
+<td>
+</tr>
+<tr>
+<td>Comments:(Mention External Certification if any)</td> 
+<td><textarea name="addr" Rows="5" cols="40" tabindex="0" accesskey="A"> </textarea><td>
+</tr>
+<tr>
+<td>Upload Degree/External Certificate:<span class="required-mark">*</span></td>
+<td>
+<form action="/action_page.php">
+  <input type="file" name="pic" accept="image/*">
+  </td>
+  </tr>
+  <tr>
+  <td></td>
+  <td>
+</form>
+<form action="/action_page.php" method="get">
+  <button type="submit">Submit</button>
+  <button type="Clear">Submit</Clear>
+</form>
+</td>
+</tr>
+<table>
+<h3><center><font color="red">All fields marked(*) are mandatory</font></center></h3>
+</body>
+</html>
